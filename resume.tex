@@ -1,0 +1,314 @@
+\documentclass[10.5pt, letterpaper]{article}
+
+% Packages:
+\usepackage[
+    ignoreheadfoot, % set margins without considering header and footer
+    top=0.8 cm, % separation between body and page edge from the top
+    bottom=1 cm, % separation between body and page edge from the bottom
+    left=1.3 cm, % separation between body and page edge from the left
+    right=1.3 cm, % separation between body and page edge from the right
+    footskip=1.0 cm, % separation between body and footer
+    % showframe % for debugging
+]{geometry} % for adjusting page geometry
+\usepackage{titlesec} % for customizing section titles
+\usepackage{tabularx} % for making tables with fixed width columns
+\usepackage{array} % tabularx requires this
+
+\newcolumntype{Y}{>{\linespread{1.}\selectfont}X}
+
+\usepackage[dvipsnames]{xcolor} % for coloring text
+\definecolor{primaryColor}{RGB}{0, 79, 144} % define primary color
+\usepackage{enumitem} % for customizing lists
+\usepackage{amsmath} % for math
+\usepackage[
+    pdftitle={Resume},
+    pdfauthor={Your Name},
+    pdfcreator={LaTeX},
+    colorlinks=true,
+    urlcolor=primaryColor,
+    pdfnewwindow=true
+]{hyperref} % for links, metadata and bookmarks
+\usepackage[pscoord]{eso-pic} % for floating text on the page
+\usepackage{calc} % for calculating lengths
+\usepackage{bookmark} % for bookmarks
+\usepackage{lastpage} % for getting the total number of pages
+\usepackage{changepage} % for one column entries (adjustwidth environment)
+\usepackage{paracol} % for two and three column entries
+\usepackage{ifthen} % for conditional statements
+\usepackage{needspace} % for avoiding page break right after the section title
+\usepackage{iftex} % check if engine is pdflatex, xetex or luatex
+\usepackage{fontawesome5} % for icons
+
+% Ensure that generate pdf is machine readable/ATS parsable:
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    \usepackage[utf8]{inputenc}
+    \usepackage{fourier}
+    \usepackage[letterspace=25]{microtype} % improves spacing and typography
+\fi
+
+% Add subtle letter spacing to italics
+\let\oldtextit\textit
+\renewcommand{\textit}[1]{{\fontsize{10pt}{12pt}\selectfont\oldtextit{\textls[15]{#1}}}}
+
+
+
+% Some settings:
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt} % remove space before adjustwidth environment
+\pagestyle{empty} % no header or footer
+\setcounter{secnumdepth}{0} % no section numbering
+\setlength{\parindent}{0pt} % no indentation
+\setlength{\topskip}{0pt} % no top skip
+\setlength{\columnsep}{0cm} % set column separation
+
+\titleformat{\section}{\needspace{4\baselineskip}\fontsize{13.5pt}{15pt}}{}{0pt}{\scshape}[\vspace{1pt}\titlerule]
+
+\titlespacing{\section}{
+    % left space:
+    -1pt
+}{
+    % top space:
+    0.35 cm
+}{
+    % bottom space:
+    0.35 cm
+} % section title spacing
+
+\renewcommand\labelitemi{$\cdot$} % tiny dot bullet points
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.08 cm,
+        parsep=0.08 cm,
+        partopsep=0pt,
+        itemsep=0.03cm,
+        leftmargin=0.27cm
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights
+
+\newenvironment{highlightsforbulletentries}{
+    \begin{itemize}[
+        topsep=0.08 cm,
+        parsep=0.08 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights for bullet entries
+
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{
+        0.2 cm + 0.00001 cm
+    }{
+        0.2 cm + 0.00001 cm
+    }
+}{
+    \end{adjustwidth}
+} % new environment for one column entries
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for two column entries
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.5}
+}{
+    \par\kern\topsep
+} % new environment for the header
+
+% save the original href command in a new command:
+\let\hrefWithoutArrow\href
+
+% new command for external links:
+\renewcommand{\href}[2]{\hrefWithoutArrow{#1}{\ifthenelse{\equal{#2}{}}{ }{#2 }}}
+
+
+\begin{document}
+    \hfuzz=15pt
+    \newcommand{\AND}{\unskip
+        \cleaders\copy\ANDbox\hskip\wd\ANDbox
+        \ignorespaces
+    }
+    \newsavebox\ANDbox
+    \sbox\ANDbox{}
+
+    % Command for bold small caps
+    \newcommand{\bsc}[1]{\textbf{\textsc{\MakeLowercase{#1}}}}
+
+    \begin{header}
+        \raggedright
+        \textbf{\fontsize{26 pt}{26 pt}\selectfont Your Name}
+
+        \vspace{0.05cm}
+
+        \normalsize
+        \hrefWithoutArrow{mailto:your.email@example.com}{\color{RoyalBlue}your.email@example.com}
+        \hfill
+        {\color{black}{City, State}}
+        \\[-0.2cm]
+        \hrefWithoutArrow{https://linkedin.com/in/yourprofile}{\color{RoyalBlue}linkedin.com/in/yourprofile} \hspace{0.05cm} $\cdot$ \hspace{0.05cm}
+        \hrefWithoutArrow{https://github.com/yourusername}{\color{RoyalBlue}github.com/yourusername} \hspace{0.05cm} $\cdot$ \hspace{0.05cm}
+        \hrefWithoutArrow{https://yourwebsite.com}{\color{RoyalBlue}yourwebsite.com}
+        \hfill
+        \hrefWithoutArrow{tel:+1-000-000-0000}{\color{RoyalBlue}(000) 000--0000}
+    \end{header}
+
+    \vspace{0.35cm - 0.3 cm}
+
+
+    \section{Education}
+
+        \begin{twocolentry}{{\fontsize{11pt}{13pt}\selectfont
+        Date
+
+        \textit{GPA\@: X.XX}}}
+            {\fontsize{11pt}{13pt}\selectfont\textbf{University Name}
+
+            {\fontsize{10pt}{12pt}\selectfont\textit{B.S. Your Major \:--\: Specialization: Your Focus}}}
+        \end{twocolentry}
+
+        \vspace{0.15 cm}
+        \begin{onecolentry}
+            \begin{tabularx}{\textwidth}{@{}p{2.15cm}Y@{}}
+                \textbf{Coursework} & \\
+            \end{tabularx}
+        \end{onecolentry}
+
+
+    \section{Skills}
+
+        \begin{onecolentry}
+            \begin{tabularx}{\textwidth}{@{}p{2.15cm}Y@{}}
+                \textbf{Languages} & \\[0.1cm]
+                \textbf{Technologies} & \\[0.1cm]
+                \textbf{Tools} &
+            \end{tabularx}
+        \end{onecolentry}
+
+
+    \section{Experience}
+
+        \begin{twocolentry}{{\fontsize{11pt}{13pt}\selectfont Date}}
+            {\fontsize{11pt}{13pt}\selectfont\textbf{Job Title} \:$|$\: \textit{Company Name}}
+        \end{twocolentry}
+
+        \vspace{0.08 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item
+                \item
+                \item
+            \end{highlights}
+        \end{onecolentry}
+
+
+        \vspace{0.35 cm}
+
+        \begin{twocolentry}{{\fontsize{11pt}{13pt}\selectfont Date}}
+            {\fontsize{11pt}{13pt}\selectfont\textbf{Job Title} \:$|$\: \textit{Company Name}}
+        \end{twocolentry}
+
+        \vspace{0.08 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item
+                \item
+                \item
+            \end{highlights}
+        \end{onecolentry}
+
+
+    \section{Projects}
+
+        \begin{twocolentry}{}
+            {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name} \textit{ $|$ \:Tech 1, Tech 2, Tech 3}}
+        \end{twocolentry}
+
+        \vspace{0.08 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item
+                \item
+                \item
+            \end{highlights}
+        \end{onecolentry}
+
+
+        \vspace{0.35 cm}
+
+        \begin{twocolentry}{}
+            {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name} \textit{ $|$ \:Tech 1, Tech 2, Tech 3}}
+        \end{twocolentry}
+
+        \vspace{0.08 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item
+                \item
+                \item
+            \end{highlights}
+        \end{onecolentry}
+
+
+        \vspace{0.35 cm}
+
+        \begin{twocolentry}{}
+            {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name} \textit{ $|$ \:Tech 1, Tech 2, Tech 3}}
+        \end{twocolentry}
+
+        \vspace{0.08 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item
+                \item
+                \item
+            \end{highlights}
+        \end{onecolentry}
+
+
+    \section{Open Source}
+
+        \begin{onecolentry}
+            {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name}} \:---\: \hfill\rlap{\hspace{-0.3cm}\href{https://github.com/org/repo}{{\color{black}\faGithub}}}
+        \end{onecolentry}
+
+        \vspace{0.20 cm}
+
+        \begin{onecolentry}
+            {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name}} \:---\: \hfill\rlap{\hspace{-0.3cm}\href{https://github.com/org/repo}{{\color{black}\faGithub}}}
+        \end{onecolentry}
+
+        \vspace{0.20 cm}
+
+        \begin{onecolentry}
+            {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name}} \:---\: \hfill\rlap{\hspace{-0.3cm}\href{https://github.com/org/repo}{{\color{black}\faGithub}}}
+        \end{onecolentry}
+
+
+    \section{Leadership}
+
+        \begin{twocolentry}{}
+            {\fontsize{11pt}{13pt}\selectfont\textbf{Role / Title} \:$|$\: \textit{Organization}}
+        \end{twocolentry}
+
+        \vspace{0.08 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item
+            \end{highlights}
+        \end{onecolentry}
+
+
+\end{document}
