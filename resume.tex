@@ -79,9 +79,9 @@
 \newenvironment{highlights}{
     \begin{itemize}[
         topsep=0.08 cm,
-        parsep=0.08 cm,
+        parsep=0.05 cm,
         partopsep=0pt,
-        itemsep=0.03cm,
+        itemsep=0.01cm,
         leftmargin=0.27cm
     ]
 }{
@@ -134,6 +134,11 @@
 % new command for external links:
 \renewcommand{\href}[2]{\hrefWithoutArrow{#1}{\ifthenelse{\equal{#2}{}}{ }{#2 }}}
 
+
+% === Project Toggles (comment out a line to hide that project) ===
+\newcommand{\showProjectA}{}
+\newcommand{\showProjectB}{}
+\newcommand{\showProjectC}{}
 
 \begin{document}
     \hfuzz=15pt
@@ -232,6 +237,7 @@
 
     \section{Projects}
 
+        \ifdefined\showProjectA
         \begin{twocolentry}{}
             {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name} \textit{ $|$ \:Tech 1, Tech 2, Tech 3}}
         \end{twocolentry}
@@ -244,10 +250,11 @@
                 \item
             \end{highlights}
         \end{onecolentry}
-
 
         \vspace{0.35 cm}
+        \fi
 
+        \ifdefined\showProjectB
         \begin{twocolentry}{}
             {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name} \textit{ $|$ \:Tech 1, Tech 2, Tech 3}}
         \end{twocolentry}
@@ -260,10 +267,11 @@
                 \item
             \end{highlights}
         \end{onecolentry}
-
 
         \vspace{0.35 cm}
+        \fi
 
+        \ifdefined\showProjectC
         \begin{twocolentry}{}
             {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name} \textit{ $|$ \:Tech 1, Tech 2, Tech 3}}
         \end{twocolentry}
@@ -276,6 +284,9 @@
                 \item
             \end{highlights}
         \end{onecolentry}
+
+        \vspace{0.35 cm}
+        \fi
 
 
     \section{Open Source}
