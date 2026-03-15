@@ -1,6 +1,6 @@
 # LaTeX Template
 
-Sngle-page resume template.
+Single-page resume template.
 
 ## Setup
 
