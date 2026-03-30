@@ -1,0 +1,10 @@
+#!/bin/bash
+# Pre-commit hook: auto-optimize \linespread to fill exactly one page
+
+# Only run if resume.tex is being committed
+if git diff --cached --name-only | grep -q "resume.tex"; then
+    echo "Running auto_linespread optimizer..."
+    bash "$(git rev-parse --show-toplevel)/auto_linespread.sh"
+    # Re-stage resume.tex with the updated \linespread value
+    git add resume.tex
+fi
