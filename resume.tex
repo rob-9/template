@@ -44,13 +44,26 @@
     \input{glyphtounicode}
     \pdfgentounicode=1
     \usepackage[utf8]{inputenc}
-    \usepackage{fourier}
+    \usepackage{lmodern} % Computer Modern, scalable to any size
+    \usepackage[T1]{fontenc}
     \usepackage[letterspace=25]{microtype} % improves spacing and typography
 \fi
 
 % Add subtle letter spacing to italics
 \let\oldtextit\textit
 \renewcommand{\textit}[1]{{\fontsize{10pt}{12pt}\selectfont\oldtextit{\textls[15]{#1}}}}
+
+% Company/organization names in entry titles. Uses \oldtextit so the size here
+% actually applies -- the redefined \textit above hardcodes its own size.
+\newcommand{\company}[1]{{\fontsize{10.5pt}{12.5pt}\selectfont\oldtextit{\textls[15]{#1}}}}
+
+% Font for date columns. Empty = same roman as body text.
+% Alternatives: \sffamily (sans), \ttfamily (mono).
+\newcommand{\datefont}{}
+
+% GitHub button, right-aligned at the margin. \smash keeps the icon from
+% growing the line, since the glyph is taller than the surrounding text.
+\newcommand{\ghbutton}[1]{\hfill\rlap{\hspace{-0.3cm}\smash{\hrefWithoutArrow{#1}{{\color{black}\faGithub}}}}}
 
 
 
@@ -61,7 +74,7 @@
 \setlength{\parindent}{0pt} % no indentation
 \setlength{\topskip}{0pt} % no top skip
 \setlength{\columnsep}{0cm} % set column separation
-\linespread{1.0}\selectfont % tighten line spacing
+\linespread{1.0242}\selectfont % tighten line spacing
 
 \titleformat{\section}{\needspace{4\baselineskip}\fontsize{13.5pt}{15pt}}{}{0pt}{\scshape}[\vspace{1pt}\titlerule]
 
@@ -151,11 +164,13 @@
     \sbox\ANDbox{}
 
     % Command for bold small caps
+    % NOTE: Latin Modern has no bold small caps (T1/lmr/bx/sc), so the \textbf
+    % here is silently dropped. Use \textsc alone, or switch fonts, if you need this.
     \newcommand{\bsc}[1]{\textbf{\textsc{\MakeLowercase{#1}}}}
 
     \begin{header}
         \raggedright
-        \textbf{\fontsize{26 pt}{26 pt}\selectfont Your Name}
+        {\fontsize{26 pt}{26 pt}\selectfont\scshape Your Name}
 
         \vspace{0.05cm}
 
@@ -176,7 +191,7 @@
 
     \section{Education}
 
-        \begin{twocolentry}{{\fontsize{11pt}{13pt}\selectfont
+        \begin{twocolentry}{{\fontsize{11pt}{13pt}\selectfont\datefont
         Date
 
         \textit{GPA\@: X.XX}}}
@@ -187,7 +202,7 @@
 
         \vspace{0.15 cm}
         \begin{onecolentry}
-            \begin{tabularx}{\textwidth}{@{}p{2.15cm}Y@{}}
+            \begin{tabularx}{\linewidth}{@{}p{2.15cm}Y@{}}
                 \textbf{Coursework} & \\
             \end{tabularx}
         \end{onecolentry}
@@ -196,7 +211,7 @@
     \section{Skills}
 
         \begin{onecolentry}
-            \begin{tabularx}{\textwidth}{@{}p{2.15cm}Y@{}}
+            \begin{tabularx}{\linewidth}{@{}p{2.15cm}Y@{}}
                 \textbf{Languages} & \\[0.1cm]
                 \textbf{Technologies} & \\[0.1cm]
                 \textbf{Tools} &
@@ -206,8 +221,8 @@
 
     \section{Experience}
 
-        \begin{twocolentry}{{\fontsize{11pt}{13pt}\selectfont Date}}
-            {\fontsize{11pt}{13pt}\selectfont\textbf{Job Title} \:$|$\: \textit{Company Name}}
+        \begin{twocolentry}{{\fontsize{11pt}{13pt}\selectfont\datefont Date}}
+            {\fontsize{11pt}{13pt}\selectfont\textbf{Job Title} \:$|$\: \company{Company Name}}
         \end{twocolentry}
 
         \vspace{0.08 cm}
@@ -222,8 +237,8 @@
 
         \vspace{0.35 cm}
 
-        \begin{twocolentry}{{\fontsize{11pt}{13pt}\selectfont Date}}
-            {\fontsize{11pt}{13pt}\selectfont\textbf{Job Title} \:$|$\: \textit{Company Name}}
+        \begin{twocolentry}{{\fontsize{11pt}{13pt}\selectfont\datefont Date}}
+            {\fontsize{11pt}{13pt}\selectfont\textbf{Job Title} \:$|$\: \company{Company Name}}
         \end{twocolentry}
 
         \vspace{0.08 cm}
@@ -239,9 +254,9 @@
     \section{Projects}
 
         \ifdefined\showProjectA
-        \begin{twocolentry}{}
-            {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name} \textit{ $|$ \:Tech 1, Tech 2, Tech 3}}
-        \end{twocolentry}
+        \begin{onecolentry}
+            {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name} \textit{ $|$ \:Tech 1, Tech 2, Tech 3}}\ghbutton{https://github.com/org/repo}
+        \end{onecolentry}
 
         \vspace{0.08 cm}
         \begin{onecolentry}
@@ -256,9 +271,9 @@
         \fi
 
         \ifdefined\showProjectB
-        \begin{twocolentry}{}
-            {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name} \textit{ $|$ \:Tech 1, Tech 2, Tech 3}}
-        \end{twocolentry}
+        \begin{onecolentry}
+            {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name} \textit{ $|$ \:Tech 1, Tech 2, Tech 3}}\ghbutton{https://github.com/org/repo}
+        \end{onecolentry}
 
         \vspace{0.08 cm}
         \begin{onecolentry}
@@ -273,9 +288,9 @@
         \fi
 
         \ifdefined\showProjectC
-        \begin{twocolentry}{}
-            {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name} \textit{ $|$ \:Tech 1, Tech 2, Tech 3}}
-        \end{twocolentry}
+        \begin{onecolentry}
+            {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name} \textit{ $|$ \:Tech 1, Tech 2, Tech 3}}\ghbutton{https://github.com/org/repo}
+        \end{onecolentry}
 
         \vspace{0.08 cm}
         \begin{onecolentry}
@@ -293,26 +308,26 @@
     \section{Open Source}
 
         \begin{onecolentry}
-            {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name}} \:---\: \hfill\rlap{\hspace{-0.3cm}\href{https://github.com/org/repo}{{\color{black}\faGithub}}}
+            {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name}} \:---\: \ghbutton{https://github.com/org/repo}
         \end{onecolentry}
 
         \vspace{0.20 cm}
 
         \begin{onecolentry}
-            {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name}} \:---\: \hfill\rlap{\hspace{-0.3cm}\href{https://github.com/org/repo}{{\color{black}\faGithub}}}
+            {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name}} \:---\: \ghbutton{https://github.com/org/repo}
         \end{onecolentry}
 
         \vspace{0.20 cm}
 
         \begin{onecolentry}
-            {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name}} \:---\: \hfill\rlap{\hspace{-0.3cm}\href{https://github.com/org/repo}{{\color{black}\faGithub}}}
+            {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name}} \:---\: \ghbutton{https://github.com/org/repo}
         \end{onecolentry}
 
 
     \section{Leadership}
 
         \begin{twocolentry}{}
-            {\fontsize{11pt}{13pt}\selectfont\textbf{Role / Title} \:$|$\: \textit{Organization}}
+            {\fontsize{11pt}{13pt}\selectfont\textbf{Role / Title} \:$|$\: \company{Organization}}
         \end{twocolentry}
 
         \vspace{0.08 cm}
