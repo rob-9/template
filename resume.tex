@@ -57,13 +57,14 @@
 % actually applies -- the redefined \textit above hardcodes its own size.
 \newcommand{\company}[1]{{\fontsize{10.5pt}{12.5pt}\selectfont\oldtextit{\textls[15]{#1}}}}
 
-% Font for date columns. Empty = same roman as body text.
-% Alternatives: \sffamily (sans), \ttfamily (mono).
-\newcommand{\datefont}{}
+% Single control point for every date column: size, leading, and shape.
+% Add \sffamily or \ttfamily for a different family; add \itshape for italics.
+\newcommand{\datefont}{\fontsize{10.5pt}{12.5pt}\selectfont}
 
-% GitHub button, right-aligned at the margin. \smash keeps the icon from
-% growing the line, since the glyph is taller than the surrounding text.
-\newcommand{\ghbutton}[1]{\hfill\rlap{\hspace{-0.3cm}\smash{\hrefWithoutArrow{#1}{{\color{black}\faGithub}}}}}
+% GitHub button, right-aligned at the margin. The zero-height box keeps the
+% taller icon from growing the line while retaining a generous click target.
+\newcommand{\ghbutton}[1]{\hfill\rlap{\hspace{-0.461cm}\raisebox{0pt}[0pt][0pt]{%
+    \hrefWithoutArrow{#1}{\makebox[16pt][c]{\rule[-4pt]{0pt}{15pt}{\color{black!70}\faGithub}}}}}}
 
 
 
@@ -74,7 +75,7 @@
 \setlength{\parindent}{0pt} % no indentation
 \setlength{\topskip}{0pt} % no top skip
 \setlength{\columnsep}{0cm} % set column separation
-\linespread{1.0242}\selectfont % tighten line spacing
+\linespread{1.0632}\selectfont % tighten line spacing
 
 \titleformat{\section}{\needspace{4\baselineskip}\fontsize{13.5pt}{15pt}}{}{0pt}{\scshape}[\vspace{1pt}\titlerule]
 
@@ -83,21 +84,24 @@
     -1pt
 }{
     % top space:
-    0.35 cm
+    0.25 cm
 }{
     % bottom space:
-    0.35 cm
+    0.25 cm
 } % section title spacing
 
 \renewcommand\labelitemi{$\cdot$} % tiny dot bullet points
 \newenvironment{highlights}{
     \begin{itemize}[
         topsep=0.08 cm,
-        parsep=0.05 cm,
+        parsep=0.08 cm,
         partopsep=0pt,
-        itemsep=0.01cm,
+        itemsep=0.03cm,
         leftmargin=0.27cm
-    ]
+    ]%
+    % A list resets \parfillskip, so set this after \begin{itemize}. This lets
+    % one-line bullets justify across the full available width.
+    \setlength{\parfillskip}{0pt}%
 }{
     \end{itemize}
 } % new environment for highlights
@@ -149,10 +153,63 @@
 \renewcommand{\href}[2]{\hrefWithoutArrow{#1}{\ifthenelse{\equal{#2}{}}{ }{#2 }}}
 
 
-% === Project Toggles (comment out a line to hide that project) ===
-\newcommand{\showProjectA}{}
-\newcommand{\showProjectB}{}
-\newcommand{\showProjectC}{}
+% === Project Definitions ===
+% Each project is a macro. Reorder, show, or hide projects by editing only the
+% \projectOrder line below.
+
+\newcommand{\projA}{
+    \begin{onecolentry}
+        {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name} \textit{--- \:Tech 1, Tech 2, Tech 3}}\ghbutton{https://github.com/org/repo}
+    \end{onecolentry}
+
+    \vspace{0.09 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item
+            \item
+            \item
+        \end{highlights}
+    \end{onecolentry}
+
+    \vspace{0.25 cm}
+}
+
+\newcommand{\projB}{
+    \begin{onecolentry}
+        {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name} \textit{--- \:Tech 1, Tech 2, Tech 3}}\ghbutton{https://github.com/org/repo}
+    \end{onecolentry}
+
+    \vspace{0.09 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item
+            \item
+            \item
+        \end{highlights}
+    \end{onecolentry}
+
+    \vspace{0.25 cm}
+}
+
+\newcommand{\projC}{
+    \begin{onecolentry}
+        {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name} \textit{--- \:Tech 1, Tech 2, Tech 3}}\ghbutton{https://github.com/org/repo}
+    \end{onecolentry}
+
+    \vspace{0.09 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item
+            \item
+            \item
+        \end{highlights}
+    \end{onecolentry}
+
+    \vspace{0.25 cm}
+}
+
+% Available: \projA \projB \projC
+\newcommand{\projectOrder}{\projA \projB \projC}
 
 \begin{document}
     \hfuzz=15pt
@@ -175,15 +232,17 @@
         \vspace{0.05cm}
 
         \normalsize
-        \hrefWithoutArrow{mailto:your.email@example.com}{\color{RoyalBlue}your.email@example.com}
+        \makebox[\textwidth][s]{%
+        \hrefWithoutArrow{mailto:your.email@example.com}{\color{RoyalBlue}your.email@example.com}%
         \hfill
-        {\color{black}{City, State}}
+        {\color{black}City, State}}%
         \\[-0.2cm]
+        \makebox[\textwidth][s]{%
         \hrefWithoutArrow{https://linkedin.com/in/yourprofile}{\color{RoyalBlue}linkedin.com/in/yourprofile} \hspace{0.05cm} $\cdot$ \hspace{0.05cm}
         \hrefWithoutArrow{https://github.com/yourusername}{\color{RoyalBlue}github.com/yourusername} \hspace{0.05cm} $\cdot$ \hspace{0.05cm}
-        \hrefWithoutArrow{https://yourwebsite.com}{\color{RoyalBlue}yourwebsite.com}
+        \hrefWithoutArrow{https://yourwebsite.com}{\color{RoyalBlue}yourwebsite.com}%
         \hfill
-        \hrefWithoutArrow{tel:+1-000-000-0000}{\color{RoyalBlue}(000) 000--0000}
+        \hrefWithoutArrow{tel:+1-000-000-0000}{\color{RoyalBlue}(000) 000--0000}}
     \end{header}
 
     \vspace{0.35cm - 0.3 cm}
@@ -191,13 +250,13 @@
 
     \section{Education}
 
-        \begin{twocolentry}{{\fontsize{11pt}{13pt}\selectfont\datefont
+        \begin{twocolentry}{{\datefont
         Date
 
         \textit{GPA\@: X.XX}}}
             {\fontsize{11pt}{13pt}\selectfont\textbf{University Name}
 
-            {\fontsize{10pt}{12pt}\selectfont\textit{B.S. Your Major \:--\: Specialization: Your Focus}}}
+            {\fontsize{10.5pt}{12.5pt}\selectfont\oldtextit{\textls[15]{B.S. Your Major \:---\: Specialization: Your Focus}}}}
         \end{twocolentry}
 
         \vspace{0.15 cm}
@@ -221,11 +280,11 @@
 
     \section{Experience}
 
-        \begin{twocolentry}{{\fontsize{11pt}{13pt}\selectfont\datefont Date}}
-            {\fontsize{11pt}{13pt}\selectfont\textbf{Job Title} \:$|$\: \company{Company Name}}
+        \begin{twocolentry}{{\datefont Date}}
+            {\fontsize{11pt}{13pt}\selectfont\textbf{Job Title} \:---\: \company{Company Name}}
         \end{twocolentry}
 
-        \vspace{0.08 cm}
+        \vspace{0.09 cm}
         \begin{onecolentry}
             \begin{highlights}
                 \item
@@ -235,13 +294,13 @@
         \end{onecolentry}
 
 
-        \vspace{0.35 cm}
+        \vspace{0.25 cm}
 
-        \begin{twocolentry}{{\fontsize{11pt}{13pt}\selectfont\datefont Date}}
-            {\fontsize{11pt}{13pt}\selectfont\textbf{Job Title} \:$|$\: \company{Company Name}}
+        \begin{twocolentry}{{\datefont Date}}
+            {\fontsize{11pt}{13pt}\selectfont\textbf{Job Title} \:---\: \company{Company Name}}
         \end{twocolentry}
 
-        \vspace{0.08 cm}
+        \vspace{0.09 cm}
         \begin{onecolentry}
             \begin{highlights}
                 \item
@@ -253,56 +312,8 @@
 
     \section{Projects}
 
-        \ifdefined\showProjectA
-        \begin{onecolentry}
-            {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name} \textit{ $|$ \:Tech 1, Tech 2, Tech 3}}\ghbutton{https://github.com/org/repo}
-        \end{onecolentry}
-
-        \vspace{0.08 cm}
-        \begin{onecolentry}
-            \begin{highlights}
-                \item
-                \item
-                \item
-            \end{highlights}
-        \end{onecolentry}
-
-        \vspace{0.35 cm}
-        \fi
-
-        \ifdefined\showProjectB
-        \begin{onecolentry}
-            {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name} \textit{ $|$ \:Tech 1, Tech 2, Tech 3}}\ghbutton{https://github.com/org/repo}
-        \end{onecolentry}
-
-        \vspace{0.08 cm}
-        \begin{onecolentry}
-            \begin{highlights}
-                \item
-                \item
-                \item
-            \end{highlights}
-        \end{onecolentry}
-
-        \vspace{0.35 cm}
-        \fi
-
-        \ifdefined\showProjectC
-        \begin{onecolentry}
-            {\fontsize{11pt}{13pt}\selectfont\textbf{Project Name} \textit{ $|$ \:Tech 1, Tech 2, Tech 3}}\ghbutton{https://github.com/org/repo}
-        \end{onecolentry}
-
-        \vspace{0.08 cm}
-        \begin{onecolentry}
-            \begin{highlights}
-                \item
-                \item
-                \item
-            \end{highlights}
-        \end{onecolentry}
-
-        \vspace{0.35 cm}
-        \fi
+        \projectOrder
+        \vspace{-0.25 cm} % cancel trailing vspace from the last project macro
 
 
     \section{Open Source}
@@ -327,7 +338,7 @@
     \section{Leadership}
 
         \begin{twocolentry}{}
-            {\fontsize{11pt}{13pt}\selectfont\textbf{Role / Title} \:$|$\: \company{Organization}}
+            {\fontsize{11pt}{13pt}\selectfont\textbf{Role / Title} \:---\: \company{Organization}}
         \end{twocolentry}
 
         \vspace{0.08 cm}

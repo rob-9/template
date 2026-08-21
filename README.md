@@ -45,8 +45,9 @@ A LaTeX distribution with `pdflatex` and these packages (included in most distri
 
 - `\company{...}` — org names in entry titles. Use this instead of `\textit`, which
   is redefined to hardcode its own size and will ignore any size you set around it.
-- `\datefont` — font for date columns. Empty by default; set to `\sffamily` or `\ttfamily`.
-- `\ghbutton{url}` — GitHub icon, right-aligned at the margin. Pass a repo URL.
+- `\datefont` — shared size and font styling for every date column.
+- `\ghbutton{url}` — GitHub icon with a padded click target, right-aligned at the margin.
+- `\projectOrder` — the single place to reorder, show, or hide project macros.
 
 Inside `onecolentry` use `\linewidth`, not `\textwidth` — `\textwidth` ignores the
 0.2cm inset and overhangs the right margin.
